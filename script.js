@@ -1,24 +1,40 @@
+function letterCombinations(digits) {
+  if (digits.length === 0) {
+    return [];
+  }
+  
+  const digitToLetters = {
+    0: '0',
+    1: '1',
+    2: 'abc',
+    3: 'def',
+    4: 'ghi',
+    5: 'jkl',
+    6: 'mno',
+    7: 'pqrs',
+    8: 'tuv',
+    9: 'wxyz'
+  };
 
-   const result = [];
-
-  function backtrack(combination, nextDigits) {
-    if (nextDigits.length === 0) {
-      result.push(combination);
-    } else {
-      const currentDigit = nextDigits[0];
-      const letters = digitToLetters[currentDigit];
-
-      for (let i = 0; i < letters.length; i++) {
-        const letter = letters[i];
-        backtrack(combination + letter, nextDigits.slice(1));
+  const combinations = [''];
+  
+  for (const digit of digits) {
+    const letters = digitToLetters[digit];
+    const newCombinations = [];
+    
+    for (const combination of combinations) {
+      for (const letter of letters) {
+        newCombinations.push(combination + letter);
       }
     }
+    
+    combinations.length = 0;
+    combinations.push(...newCombinations);
   }
-
-  backtrack('', digits);
-
-  return result;
+  
+  return combinations;
 }
 
-
-module.exports = letterCombinations;
+const input = "23";
+const output = letterCombinations(input);
+console.log(output);
